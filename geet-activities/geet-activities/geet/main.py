@@ -101,7 +101,8 @@ def init():
 
     ⬇ Your code starts here:
     '''
-    pass
+    with open(file_name, 'wb') as object_file:
+        pickle.dump(branch_master, object_file, pickle.HIGHEST_PROTOCOL)
     '''
     ⬆ Your code ends here.
     '''
@@ -131,7 +132,9 @@ def config(u, e):
 
     ⬇ Your code starts here:
     '''
-    pass
+    user_config = [u, e]
+    print('Userame: {}  Email: {}'.format(user_config[0], user_config[1]))
+
     '''
     ⬆ Your code ends here.
     '''
@@ -176,7 +179,30 @@ def commit(m):
 
     ⬇ Your code starts here:
     '''
-    pass
+    #new node
+    node = Node(commit_tree.name, commit_tree.message)
+
+    #read usersnames and emails
+    with open('users.pickle', 'rb') as file:
+        usernames = pickle.load(file)
+
+    with open('emails.pickle', 'rb') as file:
+        emails = pickle.load(file)
+
+    #add to the new node
+    node.username = usernames[0]
+    node.email = emails[0]
+
+    #read branch
+    with open(branch_path, 'rb') as file:
+        branch = pickle.load(file)
+
+    #add new node to the branch
+    branch.insert_last(node)
+
+    #save the branch in a file
+    with open(branch_path, 'wb') as file:
+        pickle.dump(branch, file)
     '''
     ⬆ Your code ends here.
     '''
