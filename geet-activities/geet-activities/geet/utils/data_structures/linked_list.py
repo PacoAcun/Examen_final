@@ -53,7 +53,7 @@ class LinkedList:
 
         while node is not None:
             yield node
-            node = node.next
+            node = node.next_node
     
     def traverse(self):
         '''

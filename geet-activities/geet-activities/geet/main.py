@@ -195,16 +195,14 @@ def commit(m):
     node.username = user_config[0]
     node.email = user_config[1]
 
-    #read branch
-    with open(branch_path, 'rb') as file:
-        branch = pickle.load(file)
-
     #add new node to the branch
-    branch.insert_last(node)
+    branch.insert_last(Node(commit_tree.name, commit_tree.message, node.username, node.email))
+
+    print(Node(commit_tree.name, commit_tree.message, node.username, node.email))
 
     #save the branch in a file
     with open(branch_path, 'wb') as file:
-        pickle.dump(branch, file)
+        pickle.dump(branch, file, pickle.HIGHEST_PROTOCOL)
     '''
     ⬆ Your code ends here.
     '''
@@ -241,7 +239,7 @@ def log():
     print('[HEAD]\n')
 
     for commit in branch:
-        print('Commit hash:', commit.hash)
+        print('Commit hash:', commit.commit_hash)
         print('Commit message:', commit.message)
         print('Commit author:', commit.author)
         print('Commit contact:', commit.email, '\n')
