@@ -89,12 +89,13 @@ class LinkedList:
         Returns:
             None
         '''
-        current_node = self.start
-
-        while current_node.next_node is not None:
-            current_node = current_node.next_node
-
-        current_node.next_node = node
+        if self.start is None:
+            self.start = node
+        else:
+            current_node = self.start
+            while current_node.next_node is not None:
+                current_node = current_node.next_node
+            current_node.next_node = node
 
     def remove(self, key):
         '''

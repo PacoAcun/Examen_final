@@ -52,8 +52,11 @@ def read_file(path: str) -> str:
 
 def read_file_by_lines(path: str) -> list:
 
-    with open(path, 'r') as reader:
-        return reader.readlines()
+    with open(path, 'r', encoding='ISO-8859-1') as reader:
+        lines = [line.rstrip() for line in reader]
+    return lines
+
+    
 
 
 def hash_file(path: str) -> str:
