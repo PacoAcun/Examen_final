@@ -198,8 +198,6 @@ def commit(m):
     #add new node to the branch
     branch.insert_last(Node(commit_tree.name, commit_tree.message, node.username, node.email))
 
-    print(Node(commit_tree.name, commit_tree.message, node.username, node.email))
-
     #save the branch in a file
     with open(branch_path, 'wb') as file:
         pickle.dump(branch, file, pickle.HIGHEST_PROTOCOL)
