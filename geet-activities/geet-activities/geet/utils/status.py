@@ -4,6 +4,7 @@
 import os
 import json
 import hashlib
+import chardet
 
 
 def get_current_path() -> str:
@@ -46,17 +47,28 @@ def list_files(path: str) -> list:
 
 def read_file(path: str) -> str:
 
-    with open(path, 'r') as reader:
-        return reader.read()
+    #with open(path, 'r') as reader:
+        #return reader.read()
+    
+    with open(path, 'rb') as file:
+        raw_data = file.read()
+        result = chardet.detect(raw_data)
+        encoding = result['encoding'] or 'utf-8'
+    decoded_data = raw_data.decode(encoding, errors='replace')
+    return decoded_data
 
 
 def read_file_by_lines(path: str) -> list:
 
-    with open(path, 'r', encoding='ISO-8859-1') as reader:
-        lines = [line.rstrip() for line in reader]
+    with open(path, 'rb') as file:
+        raw_data = file.read()
+        result = chardet.detect(raw_data)
+        encoding = result['encoding']
+    lines = []
+    with open(path, 'r', encoding=encoding, errors='replace') as reader:
+        for line in reader:
+            lines.append(line.rstrip())
     return lines
-
-    
 
 
 def hash_file(path: str) -> str:

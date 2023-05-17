@@ -135,6 +135,11 @@ def config(u, e):
     user_config = [u, e]
     print('Userame: {}  Email: {}'.format(user_config[0], user_config[1]))
 
+    current_path = os.getcwd()
+
+    file_path = os.path.join(current_path + "/.geet", 'user_config.pickle')
+    with open(file_path, 'wb') as file:
+        pickle.dump(user_config, file)
     '''
     ⬆ Your code ends here.
     '''
@@ -183,15 +188,12 @@ def commit(m):
     node = Node(commit_tree.name, commit_tree.message)
 
     #read usersnames and emails
-    with open('users.pickle', 'rb') as file:
-        usernames = pickle.load(file)
-
-    with open('emails.pickle', 'rb') as file:
-        emails = pickle.load(file)
+    with open('.geet/user_config.pickle', 'rb') as file:
+        user_config = pickle.load(file)
 
     #add to the new node
-    node.username = usernames[0]
-    node.email = emails[0]
+    node.username = user_config[0]
+    node.email = user_config[1]
 
     #read branch
     with open(branch_path, 'rb') as file:
