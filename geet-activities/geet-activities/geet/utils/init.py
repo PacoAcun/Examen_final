@@ -3,7 +3,7 @@
 '''
 import os
 import utils.data_structures.linked_list as linked_list
-import utils.data_structures.stack as stack
+import utils.data_structures.stack as Stack
 
 
 def write_file(name: str, lines: list) -> None:
@@ -42,8 +42,11 @@ def create_branch(path: str) -> object:
     ⬇ Your code starts here:
     '''
     linkedlist = linked_list.LinkedList()
-    stack = stack.Stack()
     return linkedlist
     '''
     ⬆ Your code ends here.
     '''
+
+def create_time_stack(path: str) -> object:
+    time_stack = Stack.Stack()
+    return time_stack

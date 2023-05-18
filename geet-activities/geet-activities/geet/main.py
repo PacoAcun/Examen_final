@@ -9,6 +9,8 @@ import time
 import sys
 import os
 
+import time
+
 
 @click.group()
 def cli():
@@ -84,13 +86,22 @@ def init():
     # Creates master branch (linked list)
     branch_master = init_utils.create_branch(path) # NOTE: Activity no. 1 function invocation
 
+    time_stack = init_utils.create_time_stack(path)
+
     # Creates initial commit
     commit_tree = commit_utils.create_tree_object(path, 'Initial commit') # NOTE: Activity no. 2 main function call
     commit_utils.save_tree_object(path, commit_tree)
     branch_master.insert_last(Node(commit_tree.name, commit_tree.message, 'Angel Tortola', 'tortola@ufm.edu'))
 
+    a = time.asctime( time.localtime(time.time()) )
+    b = str(a)
+    print(a)
+
+    time_stack.push(b)
+
     # Saves branch as pickle
-    file_name = path + '.geet/branch'  
+    file_name = path + '.geet/branch'
+    file_stack = path + '.geet/stack'  
 
     '''
     TODO no. 3: Persist branch
@@ -103,6 +114,9 @@ def init():
     '''
     with open(file_name, 'wb') as object_file:
         pickle.dump(branch_master, object_file, pickle.HIGHEST_PROTOCOL)
+
+    with open(file_stack, 'wb') as object_file:
+        pickle.dump(time_stack, object_file, pickle.HIGHEST_PROTOCOL)
     '''
     ⬆ Your code ends here.
     '''
@@ -166,6 +180,9 @@ def commit(m):
     # Reads pickle and retrieves branch as linked list object
     branch_path = path + '.geet/branch'
 
+    # Reads pickle and retrieves branch as linked list object
+    stack_path = path + '.geet/stack'
+
     with open(branch_path, 'rb') as file:
         branch = pickle.load(file)
 
@@ -198,9 +215,21 @@ def commit(m):
     #add new node to the branch
     branch.insert_last(Node(commit_tree.name, commit_tree.message, node.username, node.email))
 
+    with open(stack_path, 'rb') as f:
+        stack = pickle.load(f)
+
+    a = time.asctime( time.localtime(time.time()) )
+    b = str(a)
+    print(a)
+
+    stack.push(b)
+
     #save the branch in a file
     with open(branch_path, 'wb') as file:
         pickle.dump(branch, file, pickle.HIGHEST_PROTOCOL)
+
+    with open(stack_path, 'wb') as object_file:
+        pickle.dump(stack, object_file, pickle.HIGHEST_PROTOCOL)
     '''
     ⬆ Your code ends here.
     '''
@@ -243,6 +272,19 @@ def log():
         print('Commit contact:', commit.email, '\n')
 
     print('[Beginning of time]')
+
+@cli.command()
+def last():
+
+    path = status_utils.get_current_path()
+    # Reads pickle and retrieves branch as linked list object
+    branch_path = path + '.geet/stack'
+
+
+    with open(branch_path, 'rb') as f:
+        stack = pickle.load(f)
+    
+    print("last modification: ", stack.peek())
 
 
 if __name__ == '__main__':
